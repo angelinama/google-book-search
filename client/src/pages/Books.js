@@ -23,7 +23,7 @@ function Books() {
     if (!formObject.search) return;
     API.getBooks(formObject.search)
       .then((res) => {
-        const { items, totalItems } = res.data;
+        const { items } = res.data;
 
         // console.log(items[0].volumeInfo);
         const books = items.map((bookObj) => {
@@ -52,10 +52,21 @@ function Books() {
       .catch((err) => console.log(err));
   }
 
-  // Deletes a book from the database with a given id, then reloads books from the db
-  function deleteBook(id) {
-    API.deleteBook(id)
-      .then((res) => console.log(res))
+  // // Deletes a book from the database with a given id, then reloads books from the db
+  // function deleteBook(id) {
+  //   API.deleteBook(id)
+  //     .then((res) => console.log(res))
+  //     .catch((err) => console.log(err));
+  // }
+
+  //Sve a book to database and set book._id to the return _id in mongodb
+  function saveBook(book) {
+    // console.log(book);
+    API.saveBook(book)
+      .then((res) => {
+        console.log(res);
+        //should I redirect to saved page?
+      })
       .catch((err) => console.log(err));
   }
 
@@ -115,7 +126,9 @@ function Books() {
                   <Button
                     variant="danger"
                     className="float-right"
-                    onClick={() => {}}
+                    onClick={() => {
+                      saveBook(book);
+                    }}
                   >
                     Save
                   </Button>

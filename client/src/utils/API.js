@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default {
+const API = {
   // Gets all books
   getBooks: function (search) {
     return axios.get(
@@ -9,10 +9,6 @@ export default {
   },
   getSavedBooks: function () {
     return axios.get("/api/books");
-  },
-  // Gets the book with the given id
-  getBook: function (id) {
-    return axios.get("/api/books/" + id);
   },
   // Deletes the book with the given id
   deleteBook: function (id) {
@@ -23,3 +19,5 @@ export default {
     return axios.post("/api/books", bookData);
   },
 };
+
+export default API;
