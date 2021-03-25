@@ -7,6 +7,9 @@ export default {
       `https://www.googleapis.com/books/v1/volumes?q=${search}&maxResults=10&printType=books&key=AIzaSyAvaT1jnQgxBACSZYp7F3gK5iQGbIkcO4k`
     );
   },
+  getSavedBooks: function () {
+    return axios.get("/api/books");
+  },
   // Gets the book with the given id
   getBook: function (id) {
     return axios.get("/api/books/" + id);
