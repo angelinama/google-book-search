@@ -5,13 +5,13 @@ import API from "../utils/API";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
-import { Input, TextArea, FormBtn } from "../components/Form";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
 function Books() {
   // Setting our component's initial state
   //TODO  change it to global state using context {books, saved books}
   const [books, setBooks] = useState([]);
-  //   const [formObject, setFormObject] = useState({});
 
   // Load all books and store them with setBooks
   useEffect(() => {
@@ -32,78 +32,60 @@ function Books() {
       .catch((err) => console.log(err));
   }
 
-  // Handles updating component state when the user types into the input field
-  //   function handleInputChange(event) {
-  //     const { name, value } = event.target;
-  //     setFormObject({ ...formObject, [name]: value });
-  //   }
-
-  // When the form is submitted, use the API.saveBook method to save the book data
-  // Then reload books from the database
-  //   function handleFormSubmit(event) {
-  //     event.preventDefault();
-  //     if (formObject.title && formObject.author) {
-  //       API.saveBook({
-  //         title: formObject.title,
-  //         author: formObject.author,
-  //         synopsis: formObject.synopsis,
-  //       })
-  //         .then((res) => loadBooks())
-  //         .catch((err) => console.log(err));
-  //     }
-  //   }
-
   return (
     <Container fluid>
+      <Jumbotron>
+        <h1>(React) Google Books Search</h1>
+        <h3>Search for and Save Books of Internet</h3>
+      </Jumbotron>
       <Row>
-        <Col size="md-6">
-          <Jumbotron>
-            <h1>Saved page</h1>
-          </Jumbotron>
-          {/* <form>
-            <Input
-              onChange={handleInputChange}
-              name="title"
-              placeholder="Title (required)"
-            />
-            <Input
-              onChange={handleInputChange}
-              name="author"
-              placeholder="Author (required)"
-            />
-            <TextArea
-              onChange={handleInputChange}
-              name="synopsis"
-              placeholder="Synopsis (Optional)"
-            />
-            <FormBtn
-              disabled={!(formObject.author && formObject.title)}
-              onClick={handleFormSubmit}
-            >
-              Submit Book
-            </FormBtn>
-          </form> */}
-        </Col>
-        <Col size="md-6 sm-12">
-          <Jumbotron>
-            <h1>Books On My List</h1>
-          </Jumbotron>
-          {books.length ? (
-            <List>
-              {books.map((book) => (
-                <ListItem key={book._id}>
-                  <Link to={"/books/" + book._id}>
-                    <strong>
-                      {book.title} by {book.author}
-                    </strong>
-                  </Link>
-                  <DeleteBtn onClick={() => deleteBook(book._id)} />
-                </ListItem>
-              ))}
-            </List>
-          ) : (
-            <h3>No Results to Display</h3>
-          )}
+        <Col size="md-12">
+          <h3>Saved books</h3>
+          <br></br>
+          {books.map((book) => (
+            <Card key={book._id}>
+              <Card.Body>
+                <Card.Title>
+                  {book.title}
+                  <Button
+                    variant="danger"
+                    className="float-right"
+                    onClick={() => {
+                      deleteBook(book._id);
+                    }}
+                  >
+                    delete
+                  </Button>
+                  <Button variant="danger" className="float-right mr-1">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={book.link}
+                      style={{ color: "white" }}
+                    >
+                      View
+                    </a>
+                  </Button>
+                </Card.Title>
+                {book.subtitle ? (
+                  <Card.Subtitle className="mb-3">
+                    {book.subtitle}
+                  </Card.Subtitle>
+                ) : (
+                  <br></br>
+                )}
+                <Card.Subtitle className="mb-3 text-muted">
+                  Written by {book.authors}
+                </Card.Subtitle>
+                <Card.Img
+                  style={{ width: "10%" }}
+                  className="float-left mr-5"
+                  src={book.image}
+                />
+                <Card.Text>{book.description}</Card.Text>
+              </Card.Body>
+            </Card>
+          ))}
         </Col>
       </Row>
     </Container>
