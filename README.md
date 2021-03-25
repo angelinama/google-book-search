@@ -1,29 +1,72 @@
-# Create React Express App
+Budget Trackers
 
-## About This Boilerplate
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
+## Description
 
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
+A new React-based Google Books Search app.
 
-## Starting the app locally
+## Table of Contents
 
-Start by installing front and backend dependencies. While in this directory, run the following command:
+- [Description](#description)
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+- [Contributing](#contributing)
+- [Tests](#tests)
+- [Questions](#questions)
 
+## Installation
+
+### Use deployed page
+
+https://google-book-search-angelina.herokuapp.com/
+
+### Use Locally
+
+- This application need node.js, please refer to [offical website](https://nodejs.org/en/download/) for installation
+- download this repo by running
+  ```bash
+  git clone https://github.com/angelinama/google-book-search.git
+  ```
+- install required node pacakges by running
+  ```bash
+  npm install
+  ```
+- Install [MongoDB](https://docs.mongodb.com/manual/installation/#mongodb-community-edition-installation-tutorials) on your machine
+
+- start the application by running
+
+```bash
+  npm start
 ```
-npm install
-```
 
-This should install node modules within the server and the client folder.
+## Usage
 
-After both installations complete, run the following command in your terminal:
+#### search page
 
-```
-npm start
-```
+![image](https://user-images.githubusercontent.com/22566791/112450956-2aaf6e80-8d12-11eb-9c1a-32fc53270104.png)
 
-Your app should now be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
+#### saved page
 
-## Deployment (Heroku)
+![image](https://user-images.githubusercontent.com/22566791/112450805-005db100-8d12-11eb-80d5-3b17fb702815.png)
 
-To deploy, simply add and commit your changes, and push to Heroku. As is, the NPM scripts should take care of the rest.
+## License
+
+this project is s licensed under the [MIT License](LICENSE)
+
+## Contributing
+
+This project is not open for collaboration yet
+
+## Tests
+
+Terminal run this application or testing on deployed page
+
+## Questions
+
+connect with me on [my Github](https://github.com/angelinama) and if you have additional questions, please email me at: angelina890308@gmail.com
+
+## Credits
+
+[Angelina Ma](https://github.com/angelinama)
