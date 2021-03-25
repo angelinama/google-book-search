@@ -6,17 +6,19 @@ import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import { Input, TextArea, FormBtn } from "../components/Form";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
 function Books() {
   // Setting our component's initial state
   const [books, setBooks] = useState([]);
-  const [formObject, setFormObject] = useState({});
+  const [formObject, setFormObject] = useState({ search: "" });
 
-  // Load all books and store them with setBooks
-  useEffect(() => {
-    // searchBooks();
-    console.log(books);
-  }, [books]);
+  // // Load all books and store them with setBooks
+  // useEffect(() => {
+  //   // searchBooks();
+  //   // console.log(books);
+  // }, [books]);
 
   // Loads 10 books from Google search and sets them to books
   function searchBooks() {
@@ -26,20 +28,28 @@ function Books() {
       .then((res) => {
         const { items, totalItems } = res.data;
 
-        console.log(items[0].volumeInfo);
+        // console.log(items[0].volumeInfo);
         const books = items.map((bookObj) => {
           const book = bookObj.volumeInfo;
-          const { title, authors, description, infoLink, imageLinks } = book;
-          // return {
-          //   title,
-          //   authors,
-          //   image: imageLinks ? imageLinks.thumbnail : "",
-          //   description,
-          //   link: infoLink,
-          // };
-          return { title, author: authors, _id: infoLink };
+          const {
+            title,
+            authors,
+            description,
+            infoLink,
+            imageLinks,
+            subtitle,
+          } = book;
+          return {
+            title,
+            subtitle,
+            authors,
+            image: imageLinks ? imageLinks.thumbnail : "",
+            description,
+            link: infoLink,
+          };
+          // return { title, author: authors, _id: infoLink };
         });
-        console.log(books);
+        // console.log(books);
         setBooks(books);
       })
       .catch((err) => console.log(err));
@@ -66,6 +76,8 @@ function Books() {
     if (formObject.search) {
       searchBooks();
     }
+    //clear out the search bar
+    setFormObject({ ...formObject, search: "" });
   }
 
   return (
@@ -85,6 +97,7 @@ function Books() {
               name="search"
               id="search"
               placeholder="Title, author, despcripton, etc. of a books (required)"
+              value={formObject.search}
             />
 
             <FormBtn disabled={!formObject.search} onClick={handleFormSubmit}>
@@ -97,18 +110,48 @@ function Books() {
         <Col size="md-12">
           <h3>Results</h3>
           <br></br>
-          <List>
-            {books.map((book) => (
-              <ListItem key={book._id}>
-                <Link to={"/books/" + book._id}>
-                  <strong>
-                    {book.title} by {book.author}
-                  </strong>
-                </Link>
-                <DeleteBtn onClick={() => deleteBook(book._id)} />
-              </ListItem>
-            ))}
-          </List>
+          {books.map((book) => (
+            <Card key={book.link}>
+              <Card.Body>
+                <Card.Title>
+                  {book.title}
+                  <Button
+                    variant="danger"
+                    className="float-right"
+                    onClick={() => {}}
+                  >
+                    Save
+                  </Button>
+                  <Button variant="danger" className="float-right mr-1">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={book.link}
+                      style={{ color: "white" }}
+                    >
+                      View
+                    </a>
+                  </Button>
+                </Card.Title>
+                {book.subtitle ? (
+                  <Card.Subtitle className="mb-3">
+                    {book.subtitle}
+                  </Card.Subtitle>
+                ) : (
+                  <br></br>
+                )}
+                <Card.Subtitle className="mb-3 text-muted">
+                  Written by {book.authors}
+                </Card.Subtitle>
+                <Card.Img
+                  style={{ width: "10%" }}
+                  className="float-left mr-5"
+                  src={book.image}
+                />
+                <Card.Text>{book.description}</Card.Text>
+              </Card.Body>
+            </Card>
+          ))}
         </Col>
       </Row>
     </Container>
