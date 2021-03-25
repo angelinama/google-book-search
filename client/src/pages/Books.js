@@ -14,14 +14,15 @@ function Books() {
 
   // Load all books and store them with setBooks
   useEffect(() => {
-    loadBooks();
-  }, []);
+    // searchBooks();
+    console.log(books);
+  }, [books]);
 
-  // Loads all books and sets them to books
-  function loadBooks() {
+  // Loads 10 books from Google search and sets them to books
+  function searchBooks() {
     //change the search term to a different term
-    const search = "cracking the coding interview";
-    API.getBooks(search)
+    if (!formObject.search) return;
+    API.getBooks(formObject.search)
       .then((res) => {
         const { items, totalItems } = res.data;
 
@@ -47,7 +48,7 @@ function Books() {
   // Deletes a book from the database with a given id, then reloads books from the db
   function deleteBook(id) {
     API.deleteBook(id)
-      .then((res) => loadBooks())
+      .then((res) => console.log(res))
       .catch((err) => console.log(err));
   }
 
@@ -61,68 +62,53 @@ function Books() {
   // Then reload books from the database
   function handleFormSubmit(event) {
     event.preventDefault();
-    if (formObject.title && formObject.author) {
-      API.saveBook({
-        title: formObject.title,
-        author: formObject.author,
-        synopsis: formObject.synopsis,
-      })
-        .then((res) => loadBooks())
-        .catch((err) => console.log(err));
+
+    if (formObject.search) {
+      searchBooks();
     }
   }
 
   return (
     <Container fluid>
+      <Jumbotron>
+        <h1>(React) Google Books Search</h1>
+        <h3>Search for and Save Books of Internet</h3>
+      </Jumbotron>
       <Row>
-        <Col size="md-6">
-          <Jumbotron>
-            <h1>What Books Should I Read?</h1>
-          </Jumbotron>
+        <Col size="md-12">
+          <h3>Book Search</h3>
+          <br></br>
           <form>
+            <label htmlFor="search">Book</label>
             <Input
               onChange={handleInputChange}
-              name="title"
-              placeholder="Title (required)"
+              name="search"
+              id="search"
+              placeholder="Title, author, despcripton, etc. of a books (required)"
             />
-            <Input
-              onChange={handleInputChange}
-              name="author"
-              placeholder="Author (required)"
-            />
-            <TextArea
-              onChange={handleInputChange}
-              name="synopsis"
-              placeholder="Synopsis (Optional)"
-            />
-            <FormBtn
-              disabled={!(formObject.author && formObject.title)}
-              onClick={handleFormSubmit}
-            >
-              Submit Book
+
+            <FormBtn disabled={!formObject.search} onClick={handleFormSubmit}>
+              Search
             </FormBtn>
           </form>
         </Col>
-        <Col size="md-6 sm-12">
-          <Jumbotron>
-            <h1>Books On My List</h1>
-          </Jumbotron>
-          {books.length ? (
-            <List>
-              {books.map((book) => (
-                <ListItem key={book._id}>
-                  <Link to={"/books/" + book._id}>
-                    <strong>
-                      {book.title} by {book.author}
-                    </strong>
-                  </Link>
-                  <DeleteBtn onClick={() => deleteBook(book._id)} />
-                </ListItem>
-              ))}
-            </List>
-          ) : (
-            <h3>No Results to Display</h3>
-          )}
+      </Row>
+      <Row>
+        <Col size="md-12">
+          <h3>Results</h3>
+          <br></br>
+          <List>
+            {books.map((book) => (
+              <ListItem key={book._id}>
+                <Link to={"/books/" + book._id}>
+                  <strong>
+                    {book.title} by {book.author}
+                  </strong>
+                </Link>
+                <DeleteBtn onClick={() => deleteBook(book._id)} />
+              </ListItem>
+            ))}
+          </List>
         </Col>
       </Row>
     </Container>
