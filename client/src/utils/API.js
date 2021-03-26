@@ -1,10 +1,14 @@
 import axios from "axios";
+require("dotenv").config();
+
+const APIKey = process.env.REACT_APP_APIKey;
+console.log("apikey: ", APIKey);
 
 const API = {
   // Gets all books
   getBooks: function (search) {
     return axios.get(
-      `https://www.googleapis.com/books/v1/volumes?q=${search}&maxResults=10&printType=books&key=AIzaSyAvaT1jnQgxBACSZYp7F3gK5iQGbIkcO4k`
+      `https://www.googleapis.com/books/v1/volumes?q=${search}&maxResults=10&printType=books&key=${APIKey}`
     );
   },
   getSavedBooks: function () {
