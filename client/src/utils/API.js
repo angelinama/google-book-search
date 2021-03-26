@@ -2,7 +2,6 @@ import axios from "axios";
 require("dotenv").config();
 
 const APIKey = process.env.REACT_APP_APIKey;
-console.log("apikey: ", APIKey);
 
 const API = {
   // Gets all books

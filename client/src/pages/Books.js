@@ -11,12 +11,6 @@ function Books() {
   const [books, setBooks] = useState([]);
   const [formObject, setFormObject] = useState({ search: "" });
 
-  // // Load all books and store them with setBooks
-  // useEffect(() => {
-  //   // searchBooks();
-  //   // console.log(books);
-  // }, [books]);
-
   // Loads 10 books from Google search and sets them to books
   function searchBooks() {
     //change the search term to a different term
@@ -44,24 +38,14 @@ function Books() {
             description,
             link: infoLink,
           };
-          // return { title, author: authors, _id: infoLink };
         });
-        // console.log(books);
         setBooks(books);
       })
       .catch((err) => console.log(err));
   }
 
-  // // Deletes a book from the database with a given id, then reloads books from the db
-  // function deleteBook(id) {
-  //   API.deleteBook(id)
-  //     .then((res) => console.log(res))
-  //     .catch((err) => console.log(err));
-  // }
-
   //Sve a book to database and set book._id to the return _id in mongodb
   function saveBook(book) {
-    // console.log(book);
     API.saveBook(book)
       .then((res) => {
         console.log(res);
